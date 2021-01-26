@@ -23,6 +23,7 @@ The application will be deployed in the domain localhost through the port 8080 b
 
 
     gradle build
+
     java -jar build/libs/stock-api-1.0-SNAPSHOT.jar
 
 ## Additional configuration:

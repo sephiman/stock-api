@@ -39,12 +39,14 @@ Use the following properties to customize the application modifying _application
 
 
     spring.h2.console.enabled=true
+
     spring.h2.console.path=/h2
 
 3. H2 allows configuring whether to use in-memory database or physical file database changing the following properties:
 
 
     spring.datasource.url=jdbc:h2:mem:testdb
+
     #spring.datasource.url=jdbc:h2:file:./stock-database
 
 ## Endpoints

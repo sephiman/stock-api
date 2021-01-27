@@ -24,6 +24,14 @@ The application will be deployed in the domain localhost through the port 8080 b
 
 `java -jar build/libs/stock-api-1.0-SNAPSHOT.jar`
 
+- Run application with Docker. Requires docker app running:
+
+`gradle build`
+
+`docker build -f docker/Dockerfile -t stock-api .`
+
+`docker run -p 8080:8080 stock-api:latest`
+
 ## Additional configuration:
 
 Use the following properties to customize the application modifying _application.properties_

@@ -3,6 +3,7 @@ package org.juanjo.stock.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -11,7 +12,9 @@ import org.juanjo.stock.dto.CreateStockDTO;
 import org.juanjo.stock.dto.StockDTO;
 import org.juanjo.stock.dto.UpdateStockDTO;
 import org.juanjo.stock.utils.StockConstants;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -27,10 +30,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class StockControllerIT {
 	@Autowired
 	private StockController controller;
-	private final ObjectMapper mapper = new ObjectMapper();
+	private ObjectMapper mapper;
+
+	@BeforeAll
+	public void setup() {
+		mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+	}
 
 	@Test
 	public void testCreateStockOK() throws JsonProcessingException {
@@ -143,7 +153,7 @@ public class StockControllerIT {
 		assertNotNull(updatedStock);
 		assertEquals(initialRequest.getName(), updatedStock.getName());
 		assertEquals(initialRequest.getCurrentPrice(), updatedStock.getCurrentPrice());
-		assertTrue(updatedStock.getLastUpdate().after(createdStock.getLastUpdate()));
+		assertTrue(updatedStock.getLastUpdate().isAfter(createdStock.getLastUpdate()));
 		assertNotEquals(createdStock.getName(), updatedStock.getName());
 		assertNotEquals(createdStock.getCurrentPrice(), updatedStock.getCurrentPrice());
 	}

@@ -2,13 +2,14 @@ package org.juanjo.stock.dto;
 
 import org.juanjo.stock.dao.Stock;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class StockDTO {
 	private Long id;
 	private String name;
 	private Double currentPrice;
-	private Date lastUpdate;
+	private LocalDateTime lastUpdate;
 
 	public StockDTO() {
 	}
@@ -44,11 +45,11 @@ public class StockDTO {
 		this.currentPrice = currentPrice;
 	}
 
-	public Date getLastUpdate() {
+	public LocalDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
+	public void setLastUpdate(LocalDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 }

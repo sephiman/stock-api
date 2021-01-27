@@ -1,6 +1,7 @@
 package org.juanjo.stock.dao;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "stock")
@@ -10,12 +11,12 @@ public class Stock {
 	private Long id;
 	private String name;
 	private Double currentPrice;
-	private Date lastUpdate;
+	private LocalDateTime lastUpdate;
 
 	@PreUpdate
 	@PrePersist
 	protected void onModification() {
-		lastUpdate = new Date();
+		lastUpdate = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -42,11 +43,11 @@ public class Stock {
 		this.currentPrice = currentPrice;
 	}
 
-	public Date getLastUpdate() {
+	public LocalDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
+	public void setLastUpdate(LocalDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 }

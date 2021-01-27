@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -129,7 +130,7 @@ public class StockServiceImplTest {
 		stockFromDb.setId(RandomUtils.nextLong());
 		stockFromDb.setName(RandomStringUtils.randomAlphanumeric(32));
 		stockFromDb.setCurrentPrice(RandomUtils.nextDouble());
-		stockFromDb.setLastUpdate(new Date());
+		stockFromDb.setLastUpdate(LocalDateTime.now());
 		return stockFromDb;
 	}
 }

@@ -19,7 +19,7 @@ public class StockServiceImpl implements StockService {
 	private StockRepository stockRepository;
 
 	@Override
-	public StockDTO getById(Long stockId) {
+	public StockDTO getById(Long stockId) throws NotFoundException {
 		Stock stock = stockRepository.findById(stockId).orElseThrow(NotFoundException::new);
 		return new StockDTO(stock);
 	}
@@ -38,7 +38,7 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public void updateStock(Long stockId, UpdateStockDTO request) {
+	public void updateStock(Long stockId, UpdateStockDTO request) throws NotFoundException {
 		Stock stock = stockRepository.findById(stockId).orElseThrow(NotFoundException::new);
 		stock.setName(request.getName());
 		stock.setCurrentPrice(request.getCurrentPrice());

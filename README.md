@@ -16,15 +16,13 @@ The application will be deployed in the domain localhost through the port 8080 b
 
 - Run application using Gradle under project directory
 
-
-    gradle bootRun
+`gradle bootRun`
 
 - Run application using Java under project directory
 
+`gradle build`
 
-    gradle build
-
-    java -jar build/libs/stock-api-1.0-SNAPSHOT.jar
+`java -jar build/libs/stock-api-1.0-SNAPSHOT.jar`
 
 ## Additional configuration:
 
@@ -32,22 +30,19 @@ Use the following properties to customize the application modifying _application
 
 1. Default port. The default port may be change to any other adding the following property:
 
-
-    server.port=8080
+`server.port=8080`
 
 2. H2 console. H2 with Spring boot allows to enable a web h2 client with the following properties:
 
+`spring.h2.console.enabled=true`
 
-    spring.h2.console.enabled=true
-
-    spring.h2.console.path=/h2
+`spring.h2.console.path=/h2`
 
 3. H2 allows configuring whether to use in-memory database or physical file database changing the following properties:
 
+`spring.datasource.url=jdbc:h2:mem:testdb`
 
-    spring.datasource.url=jdbc:h2:mem:testdb
-
-    #spring.datasource.url=jdbc:h2:file:./stock-database
+`spring.datasource.url=jdbc:h2:file:./stock-database`
 
 ## Endpoints
 

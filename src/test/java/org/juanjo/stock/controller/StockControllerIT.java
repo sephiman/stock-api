@@ -131,6 +131,24 @@ public class StockControllerIT {
 	}
 
 	@Test
+	public void testUpdateStockOKLastUpdateChanged() throws JsonProcessingException, InterruptedException {
+		StockDTO createdStock = createStock();
+		Thread.sleep(1000);
+		UpdateStockDTO initialRequest = new UpdateStockDTO();
+		initialRequest.setName(RandomStringUtils.randomAlphanumeric(32));
+		initialRequest.setCurrentPrice(RandomUtils.nextDouble());
+		RestAssuredMockMvc.given().standaloneSetup(controller).body(initialRequest).contentType(MediaType.APPLICATION_JSON_VALUE).when()
+				.put("/api/stocks/{stockId}", createdStock.getId()).then().statusCode(HttpStatus.NO_CONTENT.value());
+		StockDTO updatedStock = getStockById(createdStock.getId());
+		assertNotNull(updatedStock);
+		assertEquals(initialRequest.getName(), updatedStock.getName());
+		assertEquals(initialRequest.getCurrentPrice(), updatedStock.getCurrentPrice());
+		assertTrue(updatedStock.getLastUpdate().after(createdStock.getLastUpdate()));
+		assertNotEquals(createdStock.getName(), updatedStock.getName());
+		assertNotEquals(createdStock.getCurrentPrice(), updatedStock.getCurrentPrice());
+	}
+
+	@Test
 	public void testUpdateStockKONotFound() {
 		long stockId = -1;
 		UpdateStockDTO initialRequest = new UpdateStockDTO();

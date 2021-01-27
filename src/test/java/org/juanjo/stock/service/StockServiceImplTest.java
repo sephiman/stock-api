@@ -35,7 +35,7 @@ public class StockServiceImplTest {
 	}
 
 	@Test
-	public void testGetByIdOK() {
+	public void testGetByIdOK() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		Stock stockFromDb = generateRandomStock();
 		when(stockRepository.findById(stockId)).thenReturn(Optional.of(stockFromDb));
@@ -108,7 +108,7 @@ public class StockServiceImplTest {
 	}
 
 	@Test
-	public void testUpdateStockOk() {
+	public void testUpdateStockOk() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		Stock existingStock = generateRandomStock();
 		when(stockRepository.findById(stockId)).thenReturn(Optional.of(existingStock));

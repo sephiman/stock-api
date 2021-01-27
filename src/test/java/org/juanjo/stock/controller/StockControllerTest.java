@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.juanjo.stock.dto.CreateStockDTO;
 import org.juanjo.stock.dto.UpdateStockDTO;
+import org.juanjo.stock.exception.NotFoundException;
 import org.juanjo.stock.service.StockService;
 import org.juanjo.stock.utils.StockConstants;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class StockControllerTest {
 	}
 
 	@Test
-	public void testGetStockById() {
+	public void testGetStockById() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		RestAssuredMockMvc.given().standaloneSetup(controller).when().get("/api/stocks/{stockId}", stockId).then()
 				.statusCode(HttpStatus.OK.value());
@@ -93,7 +94,7 @@ public class StockControllerTest {
 	}
 
 	@Test
-	public void testUpdateStockOK() {
+	public void testUpdateStockOK() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		UpdateStockDTO initialRequest = new UpdateStockDTO();
 		initialRequest.setName(RandomStringUtils.randomAlphanumeric(32));
@@ -109,7 +110,7 @@ public class StockControllerTest {
 	}
 
 	@Test
-	public void testUpdateStockKONoName() {
+	public void testUpdateStockKONoName() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		UpdateStockDTO initialRequest = new UpdateStockDTO();
 		initialRequest.setCurrentPrice(RandomUtils.nextDouble());
@@ -119,7 +120,7 @@ public class StockControllerTest {
 	}
 
 	@Test
-	public void testUpdateStockKONameMaxSize() {
+	public void testUpdateStockKONameMaxSize() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		UpdateStockDTO initialRequest = new UpdateStockDTO();
 		initialRequest.setName(RandomStringUtils.randomAlphanumeric(StockConstants.NAME_MAX_LENGTH + 1));
@@ -130,7 +131,7 @@ public class StockControllerTest {
 	}
 
 	@Test
-	public void testUpdateStockKOPriceNegative() {
+	public void testUpdateStockKOPriceNegative() throws NotFoundException {
 		long stockId = RandomUtils.nextLong();
 		UpdateStockDTO initialRequest = new UpdateStockDTO();
 		initialRequest.setName(RandomStringUtils.randomAlphanumeric(32));

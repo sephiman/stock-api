@@ -3,6 +3,7 @@ package org.juanjo.stock.service;
 import org.juanjo.stock.dto.CreateStockDTO;
 import org.juanjo.stock.dto.StockDTO;
 import org.juanjo.stock.dto.UpdateStockDTO;
+import org.juanjo.stock.exception.NotFoundException;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public interface StockService {
 	 *
 	 * @param stockId that identify the stock
 	 * @return found stock
-	 * @throws org.juanjo.stock.exception.NotFoundException when stock is not found
+	 * @throws NotFoundException when stock is not found
 	 */
-	StockDTO getById(Long stockId);
+	StockDTO getById(Long stockId) throws NotFoundException;
 
 	/**
 	 * Retrieves the full list of existing stocks
@@ -40,7 +41,7 @@ public interface StockService {
 	 *
 	 * @param stockId to update
 	 * @param request with all stock attributes to update
-	 * @throws org.juanjo.stock.exception.NotFoundException when stock is not found
+	 * @throws NotFoundException when stock is not found
 	 */
-	void updateStock(Long stockId, UpdateStockDTO request);
+	void updateStock(Long stockId, UpdateStockDTO request) throws NotFoundException;
 }

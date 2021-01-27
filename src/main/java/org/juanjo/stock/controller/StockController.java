@@ -3,6 +3,7 @@ package org.juanjo.stock.controller;
 import org.juanjo.stock.dto.CreateStockDTO;
 import org.juanjo.stock.dto.StockDTO;
 import org.juanjo.stock.dto.UpdateStockDTO;
+import org.juanjo.stock.exception.NotFoundException;
 import org.juanjo.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,10 @@ public class StockController {
 	 *
 	 * @param stockId that identify the stock
 	 * @return found stock
+	 * @throws NotFoundException when the resource is not found
 	 */
 	@GetMapping("/{stockId}")
-	public StockDTO getStockById(@PathVariable long stockId) {
+	public StockDTO getStockById(@PathVariable long stockId) throws NotFoundException {
 		return stockService.getById(stockId);
 	}
 
@@ -60,10 +62,11 @@ public class StockController {
 	 *
 	 * @param stockId to update
 	 * @param request with all stock attributes to update
+	 * @throws NotFoundException when the resource is not found
 	 */
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/{stockId}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateStock(@PathVariable long stockId, @RequestBody @Valid UpdateStockDTO request) {
+	public void updateStock(@PathVariable long stockId, @RequestBody @Valid UpdateStockDTO request) throws NotFoundException {
 		stockService.updateStock(stockId, request);
 	}
 }

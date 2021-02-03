@@ -1,5 +1,6 @@
 package org.juanjo.stock.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.juanjo.stock.dao.Stock;
 import org.juanjo.stock.dto.CreateStockDTO;
 import org.juanjo.stock.dto.StockDTO;
@@ -14,19 +15,23 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Slf4j
 public class StockServiceImpl implements StockService {
 	@Autowired
 	private StockRepository stockRepository;
 
 	@Override
 	public StockDTO getById(Long stockId) throws NotFoundException {
-		Stock stock = stockRepository.findById(stockId).orElseThrow(NotFoundException::new);
+		Stock stock = stockRepository.findById(stockId).orElseThrow( () -> {
+			log.debug("Stock id {} not found", stockId);
+			return new NotFoundException();
+		});
 		return new StockDTO(stock);
 	}
 
 	@Override
 	public List<StockDTO> listStocks() {
-		return StreamSupport.stream(stockRepository.findAll().spliterator(), false).map(StockDTO::new).collect(Collectors.toList());
+		return stockRepository.findAll().stream().map(StockDTO::new).collect(Collectors.toList());
 	}
 
 	@Override
@@ -34,7 +39,9 @@ public class StockServiceImpl implements StockService {
 		Stock stock = new Stock();
 		stock.setName(request.getName());
 		stock.setCurrentPrice(request.getCurrentPrice());
-		return new StockDTO(stockRepository.save(stock));
+		stockRepository.save(stock);
+		log.debug("Stock id {} has been created", stock.getId());
+		return new StockDTO(stock);
 	}
 
 	@Override
@@ -43,5 +50,6 @@ public class StockServiceImpl implements StockService {
 		stock.setName(request.getName());
 		stock.setCurrentPrice(request.getCurrentPrice());
 		stockRepository.save(stock);
+		log.debug("Stock id {} has been updated", stockId);
 	}
 }

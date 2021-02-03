@@ -83,18 +83,13 @@ public class StockServiceImplTest {
 
 	@Test
 	public void testCreateStockOk() {
-		Stock createdStock = generateRandomStock();
-		ArgumentCaptor<Stock> saveCaptor = ArgumentCaptor.forClass(Stock.class);
-		doReturn(createdStock).when(stockRepository).save(saveCaptor.capture());
 		CreateStockDTO request = new CreateStockDTO();
 		request.setName(RandomStringUtils.randomAlphanumeric(12));
 		request.setCurrentPrice(RandomUtils.nextDouble());
 		StockDTO result = service.createStock(request);
+		ArgumentCaptor<Stock> saveCaptor = ArgumentCaptor.forClass(Stock.class);
+		verify(stockRepository).save(saveCaptor.capture());
 		assertNotNull(result);
-		assertEquals(createdStock.getId(), result.getId());
-		assertEquals(createdStock.getName(), result.getName());
-		assertEquals(createdStock.getCurrentPrice(), result.getCurrentPrice());
-		assertEquals(createdStock.getLastUpdate(), result.getLastUpdate());
 		Stock stockToDB = saveCaptor.getValue();
 		assertNotNull(stockToDB);
 		assertEquals(request.getName(), stockToDB.getName());
